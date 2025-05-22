@@ -1,4 +1,4 @@
-# 2.2 ride count by member_casual and day_of_week
+# ride count by member_casual and day_of_week
 WITH jan_ride_count AS ( SELECT member_casual, EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week, COUNT(ride_id) AS ride_count FROM `st-project-454917.divvy_rides.january` GROUP BY member_casual, day_of_week ), 
 	feb_ride_count AS ( SELECT member_casual, EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week, COUNT(ride_id) AS ride_count FROM `st-project-454917.divvy_rides.february` GROUP BY member_casual, day_of_week ), 
 	march_ride_count AS ( SELECT member_casual, EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week, COUNT(ride_id) AS ride_count FROM `st-project-454917.divvy_rides.march` GROUP BY member_casual, day_of_week ), 
