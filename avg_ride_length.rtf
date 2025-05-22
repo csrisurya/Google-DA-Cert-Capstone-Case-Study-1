@@ -1,4 +1,4 @@
-# 2.1 avg ride length by member_casual and day_of_week
+# avg ride length by member_casual and day_of_week
 WITH jan_avg_ride_length AS ( SELECT member_casual, EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week, AVG(ended_at - started_at) AS avg_ride_length, FROM `st-project-454917.divvy_rides.january` GROUP BY member_casual, day_of_week ), 
 	feb_avg_ride_length AS ( SELECT member_casual, EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week, AVG(ended_at - started_at) AS avg_ride_length, FROM `st-project-454917.divvy_rides.february` GROUP BY member_casual, day_of_week ), 
 	march_avg_ride_length AS ( SELECT member_casual, EXTRACT(DAYOFWEEK FROM started_at) AS day_of_week, AVG(ended_at - started_at) AS avg_ride_length, FROM `st-project-454917.divvy_rides.march` GROUP BY member_casual, day_of_week ), 
