@@ -1,4 +1,4 @@
-# 2.3 ride count by member_casual and rideable_count
+# ride count by member_casual and rideable_count
 
 WITH jan_ride_count AS ( SELECT member_casual, rideable_type, COUNT(ride_id) AS ride_count FROM `st-project-454917.divvy_rides.january` GROUP BY rideable_type, member_casual ), 
 	feb_ride_count AS ( SELECT member_casual, rideable_type, COUNT(ride_id) AS ride_count FROM `st-project-454917.divvy_rides.february` GROUP BY rideable_type, member_casual ), 
