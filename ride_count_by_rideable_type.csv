@@ -1,0 +1,5 @@
+member_casual,rideable_type,jan_ride_count,feb_ride_count,march_ride_count,april_ride_count,may_ride_count,june_ride_count,july_ride_count,aug_ride_count,sept_ride_count,oct_ride_count,nov_ride_count,dec_ride_count
+casual,classic_bike,10451,27811,39614,57819,116645,142215,159986,148876,121208,98137,39056,13148
+member,classic_bike,66074,112503,108970,130584,190144,195497,210510,204113,193354,182473,109068,57380
+casual,electric_bike,14009,19352,42936,73991,114373,158912,160560,169404,140381,118309,54022,25228
+member,electric_bike,54339,63498,110167,152631,188331,214097,217906,233246,221996,217362,132929,82616
