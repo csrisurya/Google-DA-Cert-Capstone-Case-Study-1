@@ -1,0 +1,122 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 ---\
+title: "R Markdown Activity"\
+author: "Surya Chandramouli"\
+date: "2025-05-15"\
+output: pdf_document\
+---\
+\
+```\{r setup, include=FALSE\}\
+knitr::opts_chunk$set(echo = TRUE)\
+```\
+\
+# Google Data Analytics Professional Certificate - Case Study 1: How does a bike-share navigate speedy success?\
+## Setting up my environment\
+Notes: setting up my R environment by loading the 'tidyverse', 'readr', 'dplyr', and 'tidyr' packages for data cleaning and manipulation. \
+```\{r\}\
+install.packages("tidyverse")\
+install.packages("readr")\
+install.packages("dplyr")\
+install.packages("tidyr")\
+library(tidyverse)\
+library(readr)\
+library(dplyr)\
+library(tidyr)\
+```\
+## Importing data files\
+```\{r\}\
+df_2019 <- read_csv("2019-Q1-divvy-tripdata.csv")\
+df_2020 <- read_csv("2020-Q1-divvy-tripdata.csv")\
+```\
+## Previewing 2019 Data\
+The 'head' function displays the first 6 rows of dataset\
+```\{r\}\
+head(df_2019)\
+```\
+The 'colnames' function states the columns in the dataset.\
+```\{r\}\
+colnames(df_2019)\
+```\
+The 'str' function states details such as the column names and their corresponding data types.\
+```\{r\}\
+str(df_2019)\
+```\
+## Analyzing and visualizing 2019 Data\
+This finds the average tripduration by usertype and day of week (i.e. 1 = Sunday)\
+```\{r\}\
+df_2019 %>% \
+  group_by(usertype, day_of_week=wday(start_time)) %>%\
+  summarise(avg_tripduration=mean(tripduration)) %>%\
+  ggplot(aes(x=day_of_week, y=avg_tripduration, fill=usertype)) + geom_col() + labs(title="Graphic 1: Avg Trip Duration by Usertype and Day of Week")\
+```\
+This finds the average trip duration by age and usertype.\
+```\{r\}\
+df_2019 %>% \
+  group_by(usertype, age=2019-birthyear) %>%\
+  drop_na() %>%\
+  summarise(avg_tripduration=mean(tripduration)) %>%\
+  ggplot(aes(x=age, y=avg_tripduration, colour=usertype)) + geom_point() + labs(title="Graphic 2: Avg Trip Duration by Age and Usertype")\
+```\
+## Previewing the 2020 Data\
+The 'head' function gives you the first 6 rows of the dataset.\
+```\{r\}\
+head(df_2020)\
+```\
+The 'str' gives information like the the column names and their corresponding data types.\
+```\{r\}\
+str(df_2020)\
+```\
+## Analyzing and visualizing the 2020 Data\
+This gives the ride count by membership type (e.g. member, casual) and day of week (i.e. 1 = Sunday). After finding the ride count, we create a new composite col (member_casual + day_of_week) to be able to graph the counts onto a column chart easily. A column chart is chosen instead of a bar chart because the count is already calculated, and therefore specified as the y axis.\
+```\{r\}\
+df_2020 %>%\
+  count(member_casual, day_of_week=wday(started_at)) %>% \
+  mutate(membership_and_day = paste(member_casual, day_of_week)) %>%\
+  ggplot(aes(x=membership_and_day, y=n, colour=member_casual, fill=day_of_week)) + geom_col() + scale_x_discrete(guide = guide_axis(angle = 45)) + labs(title="Graphic 3: Ride Count by Membership Type and Day of Week")\
+```\
+This finds the average trip duration by membership type (e.g. member, causal) and day of week.\
+```\{r\}\
+df_2020 %>%\
+  mutate(tripduration_in_sec=strptime(df_2020$ended_at, "%Y-%m-%d %H:%M:%S")-strptime(df_2020$started_at, "%Y-%m-%d %H:%M:%S")) %>%\
+  group_by(member_casual, day_of_week=wday(started_at)) %>%\
+  summarise(mean_tripduration=mean(tripduration_in_sec)) %>%\
+  ggplot(aes(x=day_of_week, y=mean_tripduration, fill=member_casual)) + geom_col() + labs(title="Graphic 4: Avg Trip Duration Membership and Day of Week")\
+```\
+## Results\
+\
+### Graphic 1 Findings: \
+1. On average, customers go on longer trips than subscribers by at a least triple amount. \
+2. Customers' longest trips were on Thursdays, which doubles the amount of their second highest trip duration (i.e. Saturday).\
+3. Subscribers had trip durations similar across the whole week, but longest trips were on weekends.\
+\
+### Graphic 2 Findings:\
+4. Most of the customers' cluster of data is between ages 25 and 60.\
+5. Regardless of age, most subscribers averaged maximum 1,250 seconds of trip duration\
+6. Most customers averaged 1,250 - 3,750 seconds of trip duration\
+\
+### Graphic 3 Findings:\
+7. Regardless of day of week, members have a higher ride count than casual patrons.\
+8. Casual patrons have the most number of rides on Sunday, and around 1/2 as many on Saturday (i.e. second highest ride count).\
+9. For members, the most number of rides took place on Tuesday. The least number of rides occurred on the weekend.\
+\
+### Graphic 4 Findings:\
+10. On average, casual patrons went on longer trips at least four times the amount.\
+11. For casual patrons on average, the longest trip rides occurred on Thursdays. Fridays were second place and Saturdays third place.\
+12. For members on average, the trips lasted around the same time across the whole week. The weekend had the longest rides.\
+\
+## Recommendations\
+In the effort to convert casual patrons or customers into members or subscribers, the following ideas lead to this goal:\
+1. Access to themed/colored bikes on weekends for annual members (depending on availability)\
+   - Appeals to casual patrons since they ride mostly on the weekends, and members ride more on weekdays (Finding 8, 9)\
+2. Access to more cushioned and durable bikes on Thursdays-Sundays for annual members\
+   - Appeals to casual patrons who have their longest rides during Thursdays and Fridays (Finding 2, 8, 10, 11)\
+   - Captures the weekend casual crowd, who ride the most number of times (Finding 8)\
+3. Bikes give a congratulatory message after every 1000 seconds of trip duration completed from 2,000 seconds and onwards\
+   - Might give a phychological boost for casual patrons to keep going, who are riding longer than members. Given the age group (25-60 years), they might be going longer for physical fitness purposes (Finding 4, 5, 6)\
+}
